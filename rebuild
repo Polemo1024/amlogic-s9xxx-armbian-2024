@@ -351,6 +351,11 @@ git_pull_dir() {
 }
 
 download_depends() {
+    # Skip if u-boot and firmware already exist
+    if [[ -d "${uboot_path}" && -n "$(ls -A ${uboot_path} 2>/dev/null)" && -d "${firmware_path}" && -n "$(ls -A ${firmware_path} 2>/dev/null)" ]]; then
+        echo -e "${INFO} u-boot and firmware already exist, skip downloading."
+        return 0
+    fi
     echo -e "${STEPS} Start downloading dependency files..."
 
     # Download Armbian u-boot files
